@@ -75,42 +75,116 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <p>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</p>
+          <h2>3.1 Layer 2 - Part 1</h2>
+<ul>
+<li>3.1.a  Troubleshoot static and dynamic 802.1q trunking protocols</li>
+<li>3.1.b Troubleshoot static and dynamic EtherChannels</li>
 
-          <p>Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.</p>
+</ul>
+<p>Despite being halfway through the syllabus, this is my first artice and will hopefully form a template of my learning plans.  This wont necessarily be possible for all sections but that plan is to:</p>
+<ol>
+<li>Check my current knowledge using the OCG &quot;Do I know this already?&quot; or DIKTA quiz at the beginning of each Chapter</li>
+<li>Read through, summarising <strong>Key Topics</strong> in my own language</li>
+<li>Create a lab on GNS3 to configure and verify the concepts</li>
+<li>Write up my understanding in summary articles.  My theory is that if I know a topic well enough to teach it to someone else, then I know it well enough to clear the ENCOR.  <em>In theory</em></li>
 
-          <p>What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.</p>
+</ol>
+<p>Using DIKTA it&#39;s apparent that I&#39;m &#39;OK&#39; with these topics and could probably fudge my way through with liberal use of </p>
+<pre><code>#show ?
+</code></pre>
+<p>as well as inefficiently tabbing my way round the CLI.</p>
+<p>However, that&#39;s not the standard I&#39;d expect from an IE or an NP, or frankly even an NA so I now feel compelled to start from scratch.  </p>
+<blockquote><p>A journey of 1,000 miles, starts with a single step</p>
+</blockquote>
+<p>It&#39;s been more than a while since I&#39;ve looked at DTP, VTP or Etherchannel which might work in my favour.  If I have forgotten or misremembered anything from that ICND1 bootcamp all those years ago, I will now have to re-learn it entirely.</p>
+<h3>DTP</h3>
+<p><em>I realise now as I write this article that I don&#39;t know DTP well enough.</em></p>
+<p>There must be more to DTP than knowing the 3 types of DTP mode:</p>
+<ul>
+<li>Trunking</li>
+<li>Dynamic Desirable</li>
+<li>Dynamic Auto</li>
 
-          <p>A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.</p>
+</ul>
+<p>and that Cisco best practice is to set ports to a fixed state, ie Trunk or Access.  </p>
+<p>I fire up GNS3 anyway and construct a basic 3 switch lab.  Eventually my GNS3 labs will be available from the <a href='here'>Labs Page</a>.  I won&#39;t be reinventing the wheel and producing GNS3 Set Up guides as they&#39;re ten a penny online.  If you&#39;re stuck I&#39;d recommend David Bombal&#39;s YouTube channel, he&#39;s got multiple series on setting up GNS3 across Windows and OSX and he&#39;s an excellent trainer.</p>
+<p><img src="/Users/eno/github/website/img/Lab 3.1.a fig 01.png" referrerpolicy="no-referrer" alt="Lab 3.1.a fig 01"></p>
+<p>I did say basic! So the task here is to look at the different behaviours of different DTP modes.</p>
+<p>By default a switchport is in <strong>Dynamic Auto</strong> mode.  Now because both sides cannot be set to Auto, the switches will not form a trunk by default.</p>
+<p>To check a port&#39;s DTP mode, we run</p>
+<pre><code>Switch#sh int gi0/0 switchport
+Name: Gi0/0
+Switchport: Enabled
+Administrative Mode: dynamic auto
+Operational Mode: static access
+Administrative Trunking Encapsulation: negotiate
+Operational Trunking Encapsulation: native
+Negotiation of Trunking: On
+Access Mode VLAN: 1 (default)
+Trunking Native Mode VLAN: 1 (default)
+Administrative Native VLAN tagging: enabled
+Voice VLAN: none
+</code></pre>
+<p>This isn&#39;t the full output but for this request I&#39;m only looking at the first few lines anyway.  We confirm that it&#39;s in Dynamic Auto by default and in this instance that results in port operating as a static access port on the native vlan VLAN1.</p>
+<p>We can confirm there&#39;s no trunking going on by running</p>
+<pre><code>Switch#sh int trunk
+Switch#
+</code></pre>
+<p>and getting no output.</p>
+<p>By this logic, we should be able to set the other side of this connection (SW02 | Gi0/0) to either Trunk or Dynamic Desirable and that should trigger a negotiation to Trunk mode, so let&#39;s give it a try.</p>
+<pre><code>SW02(config)#int gi0/0
+SW02(config-if)#switchport mode ?
+ access    Set trunking mode to ACCESS unconditionally
+ dot1q-tunnel set trunking mode to TUNNEL unconditionally
+ dynamic    Set trunking mode to dynamically negotiate access or trunk mode
+ private-vlan Set private-vlan mode
+ trunk     Set trunking mode to TRUNK unconditionally
+SW02(config-if)#switchport mode dynamic desirable
+</code></pre>
+<p>Nothing exciting happens, but if we go back to SW01 then we can confirm that it worked</p>
+<pre><code>SW01#sh int trunk
+Port    Mode       Encapsulation Status    Native vlan
+Gi0/0    auto       n-isl     trunking   1
+Port    Vlans allowed on trunk
+Gi0/0    1-4094
+Port    Vlans allowed and active in management domain
+Gi0/0    1
+Port    Vlans in spanning tree forwarding state and not pruned
+Gi0/0    1
 
-          <p>For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us.</p>
+SW01#
+</code></pre>
+<p>Interestingly the encapsulation is by default set to Cisco&#39;s proprietary ISL.  We&#39;re only interested in 802.1q for the ENCOR so lets get the encapsulation changed and see if the same behaviour is expected</p>
+<pre><code>SW01(config)#int gi0/0
+SW01(config-if)#switchport trunk encapsulation ?
+ dot1q   		Interface uses only 802.1q trunking encapsulation when trunking
+ isl    		Interface uses only ISL trunking encapsulation when trunking
+ negotiate 	Device will negotiate trunking encapsulation with peer on
+ 						interface
+SW01(config-if)#switchport trunk encapsulation dot1q
+SW01(config-if)#
+</code></pre>
+<p>Again, no alarm bells but if we verify the other side</p>
+<pre><code>SW02#sh int trunk
+Port    Mode       Encapsulation Status    Native vlan
+Gi0/0    desirable    n-802.1q    trunking   1
+</code></pre>
+<p>We&#39;re looking good.  I&#39;m interested to know whether or not using 802.1q on SW01 and ISL on SW02 is compatible, so will come back to this once I have VLANs set up later in this section under VTP.  To find out if the compatibilty matters, click <a href='ISL and 802.1q interop?'>here</a></p>
+<p>For now, I&#39;m going to follow Cisco&#39;s recommendation and set all connected switchports to a static mode, in this case <strong>Trunk</strong>.  For consistency, I will also set them all to use 802.1q encapsulation since that&#39;s all we&#39;re being asked to learn.</p>
+<pre><code>SW01(config)#int gi0/1
+SW01(config-if)#switchport trunk encapsulation dot1q
+SW01(config-if)#switchport mode trunk
+SW01(config-if)#end
+</code></pre>
+<p>I run through all 3 switches configuring both connected switchports on each, which is how I will save the Lab.  </p>
+<h4>What have we learned?</h4>
+<ul>
+<li>Both sides of a trunk cannot be set to auto</li>
+<li>ISL and 802.1q are / ARE NOT compatible</li>
 
-          <h2 class="section-heading">The Final Frontier</h2>
+</ul>
+<p>&nbsp;</p>
 
-          <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
-
-          <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
-
-          <blockquote class="blockquote">The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered prophecy. We predict too much for the next year and yet far too little for the next ten.</blockquote>
-
-          <p>Spaceflights cannot be stopped. This is not the work of any one man or even a group of men. It is a historical process which mankind is carrying out in accordance with the natural laws of human development.</p>
-
-          <h2 class="section-heading">Reaching for the Stars</h2>
-
-          <p>As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.</p>
-
-          <a href="#">
-            <img class="img-fluid" src="img/post-sample-image.jpg" alt="">
-          </a>
-          <span class="caption text-muted">To go places and do things that have never been done before – that’s what living is all about.</span>
-
-          <p>Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before.</p>
-
-          <p>As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our nature, Man must explore, and this is exploration at its greatest.</p>
-
-          <p>Placeholder text by
-            <a href="http://spaceipsum.com/">Space Ipsum</a>. Photographs by
-            <a href="https://www.flickr.com/photos/nasacommons/">NASA on The Commons</a>.</p>
         </div>
       </div>
     </div>
