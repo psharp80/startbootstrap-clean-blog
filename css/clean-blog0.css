@@ -43,13 +43,6 @@ blockquote {
   color: #868e96;
 }
 
-pre code {
-  background-color: #eee;
-  border: 1px solid #999;
-  display: block;
-  padding: 20px;
-}
-
 .section-heading {
   font-size: 36px;
   font-weight: 700;
