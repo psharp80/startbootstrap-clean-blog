@@ -156,10 +156,10 @@ SW01#
 <p>Interestingly the encapsulation is by default set to Cisco&#39;s proprietary ISL.  We&#39;re only interested in 802.1q for the ENCOR so lets get the encapsulation changed and see if the same behaviour is expected</p>
 <pre><code>SW01(config)#int gi0/0
 SW01(config-if)#switchport trunk encapsulation ?
- dot1q   		Interface uses only 802.1q trunking encapsulation when trunking
- isl    		Interface uses only ISL trunking encapsulation when trunking
- negotiate 	Device will negotiate trunking encapsulation with peer on
- 						interface
+ dot1q         Interface uses only 802.1q trunking encapsulation when trunking
+ isl           Interface uses only ISL trunking encapsulation when trunking
+ negotiate     Device will negotiate trunking encapsulation with peer on
+               interface
 SW01(config-if)#switchport trunk encapsulation dot1q
 SW01(config-if)#
 </code></pre>
