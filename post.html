@@ -110,7 +110,8 @@
 <p>I did say basic! So the task here is to look at the different behaviours of different DTP modes.</p>
 <p>By default a switchport is in <strong>Dynamic Auto</strong> mode.  Now because both sides cannot be set to Auto, the switches will not form a trunk by default.</p>
 <p>To check a port&#39;s DTP mode, we run</p>
-<pre><code>Switch#sh int gi0/0 switchport
+<pre>
+Switch#sh int gi0/0 switchport
 Name: Gi0/0
 Switchport: Enabled
 Administrative Mode: dynamic auto
@@ -122,7 +123,7 @@ Access Mode VLAN: 1 (default)
 Trunking Native Mode VLAN: 1 (default)
 Administrative Native VLAN tagging: enabled
 Voice VLAN: none
-</code></pre>
+</pre>
 <p>This isn&#39;t the full output but for this request I&#39;m only looking at the first few lines anyway.  We confirm that it&#39;s in Dynamic Auto by default and in this instance that results in port operating as a static access port on the native vlan VLAN1.</p>
 <p>We can confirm there&#39;s no trunking going on by running</p>
 <pre><code>Switch#sh int trunk
