@@ -86,11 +86,11 @@
 <li>Check my current knowledge using the OCG &quot;Do I know this already?&quot; or DIKTA quiz at the beginning of each Chapter</li>
 <li>Read through, summarising <strong>Key Topics</strong> in my own language</li>
 <li>Create a lab on GNS3 to configure and verify the concepts</li>
-<li>Write up my understanding in summary articles.  My theory is that if I know a topic well enough to teach it to someone else, then I know it well enough to clear the ENCOR.  <em>In theory</em></li>
+<li>Write up my understanding in summary articles.  My theory is that if I know a topic well enough to teach it to someone else, then I know it well enough to clear the ENCOR.   <em>In theory</em></li>
 
 </ol>
 <p>Using DIKTA it&#39;s apparent that I&#39;m &#39;OK&#39; with these topics and could probably fudge my way through with liberal use of
-<code>switch#show ?</code>as well as inefficiently tabbing my way round the CLI.</p>
+<code>switch#show ?</code> as well as inefficiently tabbing my way round the CLI.</p>
 <p>However, that&#39;s not the standard I&#39;d expect from an IE or an NP, or frankly even an NA so I now feel compelled to start from scratch.  </p>
 <blockquote><p>A journey of 1,000 miles, starts with a single step</p>
 </blockquote>
@@ -109,9 +109,9 @@
 <p><img src="/img/Lab 3.1.a fig 01.png" referrerpolicy="no-referrer" alt="Lab 3.1.a fig 01"></p>
 <p>I did say basic! So the task here is to look at the different behaviours of different DTP modes.</p>
 <p>By default a switchport is in <strong>Dynamic Auto</strong> mode.  Now because both sides cannot be set to Auto, the switches will not form a trunk by default.</p>
-<p>To check a port&#39;s DTP mode, we run</p>
+<p>To check a port&#39;s DTP mode, we run:</p>
 <pre>
-Switch#sh int gi0/0 switchport
+SW01#sh int gi0/0 switchport
 Name: Gi0/0
 Switchport: Enabled
 Administrative Mode: dynamic auto
@@ -125,36 +125,40 @@ Administrative Native VLAN tagging: enabled
 Voice VLAN: none
 </pre>
 <p>This isn&#39;t the full output but for this request I&#39;m only looking at the first few lines anyway.  We confirm that it&#39;s in Dynamic Auto by default and in this instance that results in port operating as a static access port on the native vlan VLAN1.</p>
-<p>We can confirm there&#39;s no trunking going on by running</p>
-<pre><code>Switch#sh int trunk
-Switch#
-</code></pre>
+<p>We can confirm there&#39;s no trunking going on by running:</p>
+<pre>SW01#sh int trunk
+SW01#
+</pre>
 <p>and getting no output.</p>
-<p>By this logic, we should be able to set the other side of this connection (SW02 | Gi0/0) to either Trunk or Dynamic Desirable and that should trigger a negotiation to Trunk mode, so let&#39;s give it a try.</p>
-<pre><code>SW02(config)#int gi0/0
+<p>By this logic, we should be able to set the other side of this connection (SW02 | Gi0/0) to either Trunk or Dynamic Desirable and that should trigger a negotiation to Trunk mode, so let&#39;s give it a try:</p>
+<pre>SW02(config)#int gi0/0
 SW02(config-if)#switchport mode ?
- access    Set trunking mode to ACCESS unconditionally
- dot1q-tunnel set trunking mode to TUNNEL unconditionally
- dynamic    Set trunking mode to dynamically negotiate access or trunk mode
- private-vlan Set private-vlan mode
- trunk     Set trunking mode to TRUNK unconditionally
+ access         Set trunking mode to ACCESS unconditionally
+ dot1q-tunnel   set trunking mode to TUNNEL unconditionally
+ dynamic        Set trunking mode to dynamically negotiate access or trunk mode
+ private-vlan   Set private-vlan mode
+ trunk          Set trunking mode to TRUNK unconditionally
 SW02(config-if)#switchport mode dynamic desirable
-</code></pre>
-<p>Nothing exciting happens, but if we go back to SW01 then we can confirm that it worked</p>
-<pre><code>SW01#sh int trunk
+</pre>
+<p>Nothing exciting happens, but if we go back to SW01 then we can confirm that it worked:</p>
+<pre>SW01#sh int trunk
 Port    Mode       Encapsulation Status    Native vlan
 Gi0/0    auto       n-isl     trunking   1
+
 Port    Vlans allowed on trunk
 Gi0/0    1-4094
+
 Port    Vlans allowed and active in management domain
 Gi0/0    1
+
 Port    Vlans in spanning tree forwarding state and not pruned
 Gi0/0    1
 
 SW01#
-</code></pre>
-<p>Interestingly the encapsulation is by default set to Cisco&#39;s proprietary ISL.  We&#39;re only interested in 802.1q for the ENCOR so lets get the encapsulation changed and see if the same behaviour is expected</p>
-<pre><code>SW01(config)#int gi0/0
+</pre>
+<p>Interestingly the encapsulation is by default set to Cisco&#39;s proprietary ISL.  We&#39;re only interested in 802.1q for the ENCOR so lets get the encapsulation changed and see if the same behaviour is expected:</p>
+<pre>
+SW01(config)#int gi0/0
 SW01(config-if)#switchport trunk encapsulation ?
  dot1q         Interface uses only 802.1q trunking encapsulation when trunking
  isl           Interface uses only ISL trunking encapsulation when trunking
@@ -162,19 +166,19 @@ SW01(config-if)#switchport trunk encapsulation ?
                interface
 SW01(config-if)#switchport trunk encapsulation dot1q
 SW01(config-if)#
-</code></pre>
-<p>Again, no alarm bells but if we verify the other side</p>
-<pre><code>SW02#sh int trunk
+</pre>
+<p>Again, no alarm bells but if we verify the other side:</p>
+<pre>SW02#sh int trunk
 Port    Mode       Encapsulation Status    Native vlan
 Gi0/0    desirable    n-802.1q    trunking   1
-</code></pre>
+</pre>
 <p>We&#39;re looking good.  I&#39;m interested to know whether or not using 802.1q on SW01 and ISL on SW02 is compatible, so will come back to this once I have VLANs set up later in this section under VTP.  To find out if the compatibilty matters, click <a href='ISL and 802.1q interop?'>here</a></p>
-<p>For now, I&#39;m going to follow Cisco&#39;s recommendation and set all connected switchports to a static mode, in this case <strong>Trunk</strong>.  For consistency, I will also set them all to use 802.1q encapsulation since that&#39;s all we&#39;re being asked to learn.</p>
-<pre><code>SW01(config)#int gi0/1
+<p>For now, I&#39;m going to follow Cisco&#39;s recommendation and set all connected switchports to a static mode, in this case <strong>Trunk</strong>.  For consistency, I will also set them all to use 802.1q encapsulation since that&#39;s all we&#39;re being asked to learn:</p>
+<pre>SW01(config)#int gi0/1
 SW01(config-if)#switchport trunk encapsulation dot1q
 SW01(config-if)#switchport mode trunk
 SW01(config-if)#end
-</code></pre>
+</pre>
 <p>I run through all 3 switches configuring both connected switchports on each, which is how I will save the Lab.  </p>
 <h4>What have we learned?</h4>
 <ul>
