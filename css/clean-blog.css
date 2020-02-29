@@ -44,10 +44,12 @@ blockquote {
 }
 
 code {
-  background-color: #eee;
-  border: 1px solid #999;
-  display: block;
-  padding: 20px;
+    background: #eee;
+    color: #444;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-weight: 600;
+    font-family: consolas,monospace;
 }
 
 .section-heading {
