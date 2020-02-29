@@ -10,3 +10,16 @@
     font-weight: 600;
     font-family: consolas,monospace;
 }
+pre {
+    overflow-x: auto;
+    background: #333;
+    color: #eee;
+    line-height: 1.45;
+
+    margin: 10px 0 !important;
+    font-family: consolas,monospace;
+    font-size: 0.9em !important;
+    border-radius: 4px;
+
+
+}
