@@ -42,7 +42,7 @@
             <a class="nav-link" href="about.html">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="post.html">Post</a>
+            <a class="nav-link" href="posts_list.html">Posts</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="contact.html">Contact</a>
@@ -75,124 +75,15 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <h2>3.1 Layer 2 - Part 1</h2>
+          <h2>6.2 JSON</h2>
 <ul>
-<li>3.1.a  Troubleshoot static and dynamic 802.1q trunking protocols</li>
-<li>3.1.b Troubleshoot static and dynamic EtherChannels</li>
+<li>6.2 Construct valid JSON encoded file</li>
 
 </ul>
-<p>Despite being halfway through the syllabus, this is my first artice and will hopefully form a template of my learning plans.  This wont necessarily be possible for all sections but that plan is to:</p>
-<ol>
-<li>Check my current knowledge using the OCG &quot;Do I know this already?&quot; or DIKTA quiz at the beginning of each Chapter</li>
-<li>Read through, summarising <strong>Key Topics</strong> in my own language</li>
-<li>Create a lab on GNS3 to configure and verify the concepts</li>
-<li>Write up my understanding in summary articles.  My theory is that if I know a topic well enough to teach it to someone else, then I know it well enough to clear the ENCOR.   <em>In theory</em></li>
+<p>DIKTA: Nope</p>
 
-</ol>
-<p>Using DIKTA it&#39;s apparent that I&#39;m &#39;OK&#39; with these topics and could probably fudge my way through with liberal use of
-<code>switch#show ?</code> as well as inefficiently tabbing my way round the CLI.</p>
-<p>However, that&#39;s not the standard I&#39;d expect from an IE or an NP, or frankly even an NA so I now feel compelled to start from scratch.  </p>
-<blockquote><p>A journey of 1,000 miles, starts with a single step</p>
-</blockquote>
-<p>It&#39;s been more than a while since I&#39;ve looked at DTP, VTP or Etherchannel which might work in my favour.  If I have forgotten or misremembered anything from that ICND1 bootcamp all those years ago, I will now have to re-learn it entirely.</p>
-<h3>DTP</h3>
-<p><em>I realise now as I write this article that I don&#39;t know DTP well enough.</em></p>
-<p>There must be more to DTP than knowing the 3 types of DTP mode:</p>
-<ul>
-<li>Trunking</li>
-<li>Dynamic Desirable</li>
-<li>Dynamic Auto</li>
+<p>USo, I know absolutely nothing here.  This will have to start as a basic "What is JSON" article, before getting a bit deeper.
 
-</ul>
-<p>and that Cisco best practice is to set ports to a fixed state, ie Trunk or Access.  </p>
-<p>I fire up GNS3 anyway and construct a basic 3 switch lab.  Eventually my GNS3 labs will be available from the <a href='here'>Labs Page</a>.  I won&#39;t be reinventing the wheel and producing GNS3 Set Up guides as they&#39;re ten a penny online.  If you&#39;re stuck I&#39;d recommend David Bombal&#39;s YouTube channel, he&#39;s got multiple series on setting up GNS3 across Windows and OSX and he&#39;s an excellent trainer.</p>
-<a href="#">
-  <img class="img-fluid" src="/img/Lab 3.1.a fig 01.png" alt="">
-</a>
-<p>I did say basic! So the task here is to look at the different behaviours of different DTP modes.</p>
-<p>By default a switchport is in <strong>Dynamic Auto</strong> mode.  Now because both sides cannot be set to Auto, the switches will not form a trunk by default.</p>
-<p>To check a port&#39;s DTP mode, we run:</p>
-<pre>
-SW01#sh int gi0/0 switchport
-Name: Gi0/0
-Switchport: Enabled
-Administrative Mode: dynamic auto
-Operational Mode: static access
-Administrative Trunking Encapsulation: negotiate
-Operational Trunking Encapsulation: native
-Negotiation of Trunking: On
-Access Mode VLAN: 1 (default)
-Trunking Native Mode VLAN: 1 (default)
-Administrative Native VLAN tagging: enabled
-Voice VLAN: none
-</pre>
-<p>This isn&#39;t the full output but for this request I&#39;m only looking at the first few lines anyway.  We confirm that it&#39;s in Dynamic Auto by default and in this instance that results in port operating as a static access port on the native vlan VLAN1.</p>
-<p>We can confirm there&#39;s no trunking going on by running:</p>
-<pre>SW01#sh int trunk
-SW01#
-</pre>
-<p>and getting no output.</p>
-<p>By this logic, we should be able to set the other side of this connection (SW02 | Gi0/0) to either Trunk or Dynamic Desirable and that should trigger a negotiation to Trunk mode, so let&#39;s give it a try:</p>
-<pre>SW02(config)#int gi0/0
-SW02(config-if)#switchport mode ?
- access         Set trunking mode to ACCESS unconditionally
- dot1q-tunnel   set trunking mode to TUNNEL unconditionally
- dynamic        Set trunking mode to dynamically negotiate access or trunk mode
- private-vlan   Set private-vlan mode
- trunk          Set trunking mode to TRUNK unconditionally
-SW02(config-if)#switchport mode dynamic desirable
-</pre>
-<p>Nothing exciting happens, but if we go back to SW01 then we can confirm that it worked:</p>
-<pre>SW01#sh int trunk
-Port    Mode       Encapsulation Status    Native vlan
-Gi0/0    auto       n-isl     trunking   1
-
-Port    Vlans allowed on trunk
-Gi0/0    1-4094
-
-Port    Vlans allowed and active in management domain
-Gi0/0    1
-
-Port    Vlans in spanning tree forwarding state and not pruned
-Gi0/0    1
-
-SW01#
-</pre>
-<p>Interestingly the encapsulation is by default set to Cisco&#39;s proprietary ISL.  We&#39;re only interested in 802.1q for the ENCOR so lets get the encapsulation changed and see if the same behaviour is expected:</p>
-<pre>
-SW01(config)#int gi0/0
-SW01(config-if)#switchport trunk encapsulation ?
- dot1q         Interface uses only 802.1q trunking encapsulation when trunking
- isl           Interface uses only ISL trunking encapsulation when trunking
- negotiate     Device will negotiate trunking encapsulation with peer on
-               interface
-SW01(config-if)#switchport trunk encapsulation dot1q
-SW01(config-if)#
-</pre>
-<p>Again, no alarm bells but if we verify the other side:</p>
-<pre>SW02#sh int trunk
-Port    Mode       Encapsulation Status    Native vlan
-Gi0/0    desirable    n-802.1q    trunking   1
-</pre>
-<p>We&#39;re looking good.  I&#39;m interested to know whether or not using 802.1q on SW01 and ISL on SW02 is compatible, so will come back to this once I have VLANs set up later in this section under VTP.  To find out if the compatibilty matters, click <a href='ISL and 802.1q interop?'>here</a></p>
-<p>For now, I&#39;m going to follow Cisco&#39;s recommendation and set all connected switchports to a static mode, in this case <strong>Trunk</strong>.  For consistency, I will also set them all to use 802.1q encapsulation since that&#39;s all we&#39;re being asked to learn:</p>
-<pre>SW01(config)#int gi0/1
-SW01(config-if)#switchport trunk encapsulation dot1q
-SW01(config-if)#switchport mode trunk
-SW01(config-if)#end
-</pre>
-<p>I run through all 3 switches configuring both connected switchports on each, which is how I will save the Lab.  </p>
-<h4>What have we learned?</h4>
-<ul>
-<li>Both sides of a trunk cannot be set to auto</li>
-<li>ISL and 802.1q are / ARE NOT compatible</li>
-
-</ul>
-<p>&nbsp;</p>
-
-        </div>
-      </div>
-    </div>
   </article>
 
   <hr>
@@ -228,7 +119,7 @@ SW01(config-if)#end
               </a>
             </li>
           </ul>
-          <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
+          <p class="copyright text-muted">Copyright &copy; ccieno.com 2020</p>
         </div>
       </div>
     </div>
