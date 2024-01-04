@@ -24,7 +24,53 @@
 </head>
 
 <body>
-
+  <script src="https://app.five9.eu/consoles/SocialWidget/five9-social-widget.min.js"></script>
+  <script>
+  var options = {
+    "rootUrl": "https://app.five9.eu/consoles/",
+    "type": "email",
+    "title": "Scarecrow Consultants",
+    "tenant": "Babble",
+    "profiles": "SE Demo Campaign",
+    "showProfiles": false,
+    "autostart": true,
+    "theme": "default-theme.css",
+    "fields": {
+      "name": {
+        "value": "",
+        "show": true,
+        "label": "Name"
+      },
+      "email": {
+        "value": "",
+        "show": true,
+        "label": "Email"
+      },
+      "subject": {
+        "value": "",
+        "show": true,
+        "label": ""
+      },
+      "UserLocale": {
+        "value": "en",
+        "show": false
+      }
+    }
+  };
+  Five9SocialWidget.addWidget(options);
+  
+  </script>
+  <style type="text/css">
+    .five9-chat-button {
+    font-size: 24px !important;
+    }
+    .five9-chat-button:after {
+    content: " Now" !important;
+    }
+    #five9-popout-button {
+    float: right;
+  } </style>
+                    
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
