@@ -20,55 +20,23 @@
 
   <!-- Custom styles for this template -->
   <link href="css/clean-blog.min.css" rel="stylesheet">
+  <script src="https://cdn.prod.uk.five9.net/static/stable/chat/wrapper/index.js"></script>
 
 </head>
 
 <body>
-  <script src="https://app.five9.eu/consoles/SocialWidget/five9-social-widget.min.js"></script>
   <script>
-  var options = {
-    "rootUrl": "https://app.five9.eu/consoles/",
-    "type": "chat",
-    "title": "Scarecrow Chat",
-    "tenant": "Babble",
-    "profiles": "SE Demo Campaign",
-    "showProfiles": true,
-    "autostart": true,
-    "theme": "default-theme.css",
-    "surveyOptions": {
-      "showComment": true,
-      "requireComment": false
-    },
-    "fields": {
-      "name": {
-        "value": "",
-        "show": true,
-        "label": "Name"
-      },
-      "email": {
-        "value": "",
-        "show": true,
-        "label": "Email"
-      },
-      "UserLocale": {
-        "value": "en",
-        "show": false
-      }
-    },
-    "playSoundOnMessage": true,
-    "allowCustomerToControlSoundPlay": false,
-    "showEmailButton": true,
-    "hideDuringAfterHours": false,
-    "useBusinessHours": false,
-    "showPrintButton": false,
-    "allowUsabilityMenu": false,
-    "enableCallback": false,
-    "callbackList": "",
-    "allowRequestLiveAgent": false
-  };
-  Five9SocialWidget.addWidget(options);
-  
+  F9.Chat.Wrapper.init({
+    cdn: 'prod-uk',
+    useBusinessHours: false,
+    languages: {"enabled":false,"backgroundColor":"#65758e"},
+    l10n: {"en":{"messenger":{"customText":{}},"systemMessages":{"transferredToParticipant":"The chat has been transferred to {name}.","transferredToGroup":"That chat has been transferred to group {group}."},"captureFields":[{"k":"name","l":"Name","p":"Enter your name..."},{"k":"order_id","l":"Order ID","p":""},{"k":"Question","l":"Question","p":"What can we help you with today?"},{"k":"email","l":"Email Address","p":"Enter your email..."}]}},
+    prepopulatedFields: [{"k":"campaign","v":"I need advice from the experts"}],
+    messenger: {"integrationId":"7a8b493b-5809-469f-b5a3-b4fd3e4f1bf6","soundNotificationEnabled":true,"transcriptPrintingEnabled":false,"menuItems":{"imageUpload":true,"fileUpload":true,"shareLocation":true},"embedded":false,"setViewportScale":false,"browserStorage":"sessionStorage","fixedHeader":false,"displayStyle":"button","customColors":{"brandColor":"65758e","conversationColor":"0099ff","actionColor":"0099ff"}},
+    clearMessagesTimeout: 3
+  });
   </script>
+  
  
                     
   <!-- Navigation -->
