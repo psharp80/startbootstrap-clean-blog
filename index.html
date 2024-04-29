@@ -20,6 +20,7 @@
 
   <!-- Custom styles for this template -->
   <link href="css/clean-blog.min.css" rel="stylesheet">
+  <script src="https://cdn.prod.uk.five9.net/static/stable/chat/wrapper/index.js"></script>
 
 </head>
 
@@ -74,16 +75,13 @@
         <div class="post-preview">
           <a href="posts_list.html">
             <h2 class="post-title">
-              ENCOR Topics
+              CX in 2024
             </h2>
             <h3 class="post-subtitle">
-              Full breakdown
+              AI and all the buzzwords
             </h3>
           </a>
-          <p class="post-meta">Posted by
-            <a href="#">ccieno</a>
-            on 3rd July 2020</p>
-        </div>
+                </div>
         <hr>
                <!-- Pager -->
         <div class="clearfix">
@@ -137,6 +135,17 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/clean-blog.min.js"></script>
+  <script>
+  F9.Chat.Wrapper.init({
+    cdn: 'prod-uk',
+    useBusinessHours: false,
+    languages: {"enabled":false,"backgroundColor":"#65758e"},
+    l10n: {"en":{"messenger":{"customText":{}},"systemMessages":{"transferredToParticipant":"The chat has been transferred to {name}.","transferredToGroup":"That chat has been transferred to group {group}."},"captureFields":[{"k":"name","l":"Name","p":"Enter your name..."},{"k":"email","l":"Email Address","p":"Enter your email..."},{"k":"Question","l":"Question","p":"What can we help you with today?"}]}},
+    prepopulatedFields: [{"k":"campaign","v":"SE Demo - Webchat"}],
+    messenger: {"integrationId":"thiswontwork","soundNotificationEnabled":true,"transcriptPrintingEnabled":false,"menuItems":{"imageUpload":true,"fileUpload":true,"shareLocation":true},"embedded":false,"setViewportScale":false,"browserStorage":"sessionStorage","fixedHeader":false,"displayStyle":"button","customColors":{"brandColor":"65758e","conversationColor":"0099ff","actionColor":"0099ff"}},
+    clearMessagesTimeout: 3
+  });
+  </script>
 
 </body>
 
