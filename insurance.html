@@ -22,6 +22,9 @@
   <link href="css/clean-blog.min.css" rel="stylesheet">
   <script src="https://cdn.prod.uk.five9.net/static/stable/chat/wrapper/index.js"></script>
 
+  <!-- Telephone number formatting plugin -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/css/intlTelInput.css">
+
 </head>
 
 <body>
@@ -54,7 +57,7 @@
   </nav>
 
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('img/contact-bg.jpg')">
+  <header class="masthead" style="background-image: url('img/home-bg.jpg')">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
@@ -85,7 +88,7 @@
         <hr>
                <!-- Pager -->
         <div class="clearfix">
-          <a class="btn btn-primary float-right" href="posts_list.html">All Posts &rarr;</a>
+          <a class="btn btn-primary float-right" href="posts_list.html">Ask for Demo... &rarr;</a>
         </div>
       </div>
     </div>
@@ -133,9 +136,9 @@
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Custom scripts for this template -->
+  <!-- WebChat -->
   <script src="js/clean-blog.min.js"></script>
- <script>
+<script>
   F9.Chat.Wrapper.init({
     cdn: 'prod-uk',
     useBusinessHours: false,
@@ -146,6 +149,82 @@
     clearMessagesTimeout: 3
   });
   </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Call Me Pop-Up Form -->
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/intlTelInput.min.js"></script>
+<script src="CallMePlugin.js"></script>
+<script>
+    let CallMeParameters = {
+        // Background Image: use a link to a hosted image
+        cmBackgroundImage: "img/home-bg.jpg",
+
+        // Header Text: set the text and color here
+        cmHeaderText: "Please enter your information below and we will call you right away.",
+        cmHeaderTextColor: "#ffffff",
+
+        // Close Button: set the text and colors here
+        cmCloseButtonText: "X",
+        cmCloseButtonTextColor: "#000000",
+        cmCloseButtonBackgroundColor: "#ffffff",
+
+        // Submit Button: set the text and colors here
+        cmSubmitButtonText: "Call Me",
+        cmSubmitButtonTextColor: "#000000",
+        cmSubmitButtonBackgroundColor: "#ffffff",
+
+        // Should the email field be included?
+        cmEmailRequired: false,
+
+        // Hidden Fields Variables
+        cmDomain: "Babble",
+        cmList: "SE Web2CampaignDemo"
+    }
+</script>
+
+<!-- Email Pop-Up Form -->
+<script src="https://app.five9.eu/consoles/SocialWidget/five9-social-widget.min.js"></script>
+<script src="EmailFormPlugin.js"></script>
+<script>
+    var EmailFormParameters = {
+        // Close Button: set the text and colors here
+        efCloseButtonText: "X",
+        efCloseButtonTextColor: "#000000",
+        efCloseButtonBackgroundColor: "#ffffff",
+
+        // Form options
+        rootUrl: "https://app.five9.eu/consoles/",
+        type: "email",
+        title: "Ask us anything",
+        tenant: "Babble",
+        profiles: "SE Demo Profile",
+        showProfiles: true,
+        autostart: true,
+        theme: "default-theme.css",
+        fields: {
+            name: {
+                value: "",
+                show: true,
+                label: "Name"
+            },
+            email: {
+                value: "",
+                show: true,
+                label: "Email"
+            },
+            subject: {
+                value: "",
+                show: true,
+                label: "Subject"
+            },
+            UserLocale: {
+                value: "en",
+                show: false
+            }
+        }
+    };
+</script>
 
 </body>
 
