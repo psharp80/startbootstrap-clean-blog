@@ -12,36 +12,40 @@
             background-color: #f4f6f9;
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .crm-container {
-            max-width: 800px;
-            margin: 0 auto;
+            width: 1200px;
             background-color: #fff;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             padding: 20px;
+            box-sizing: border-box;
         }
         .crm-header {
             text-align: center;
-            padding-bottom: 20px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #007bff;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .crm-header h2 {
             margin: 0;
-            font-size: 26px;
+            font-size: 22px;
             color: #007bff;
         }
         .crm-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
         }
         .crm-field {
             display: flex;
             flex-direction: column;
             background-color: #f9f9f9;
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #e0e0e0;
             border-radius: 4px;
         }
@@ -52,7 +56,7 @@
         }
         .crm-field p {
             font-size: 16px;
-            padding: 10px;
+            padding: 8px;
             margin: 0;
             background-color: #fff;
             border: 1px solid #ccc;
@@ -61,9 +65,9 @@
             align-items: center;
         }
         .crm-field p img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
         }
     </style>
 </head>
@@ -101,14 +105,14 @@
                     £1,234.56
                 </p>
             </div>
-            <div class="crm-field" style="grid-column: span 2;">
+            <div class="crm-field">
                 <label for="customer-name">Customer Name</label>
                 <p id="customer-name">
                     <img src="https://img.icons8.com/ios-filled/50/000000/company.png" alt="Customer Name Icon">
                     Acme Corporation
                 </p>
             </div>
-            <div class="crm-field" style="grid-column: span 2;">
+            <div class="crm-field">
                 <label for="customer-address">Address</label>
                 <p id="customer-address">
                     <img src="https://img.icons8.com/ios-filled/50/000000/address.png" alt="Address Icon">
