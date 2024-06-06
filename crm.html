@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Interface</title>
+    <title>CRM Customer Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,119 +12,112 @@
             padding: 20px;
         }
         .crm-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             background-color: #fff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             padding: 20px;
         }
-        .crm-container h2 {
-            margin-top: 0;
+        .crm-header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .crm-header h2 {
+            margin: 0;
             font-size: 24px;
             color: #333;
-            text-align: center;
         }
-        .crm-form {
+        .crm-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .crm-field {
             display: flex;
             flex-direction: column;
         }
-        .crm-form label {
+        .crm-field label {
             font-size: 14px;
             color: #555;
             margin-bottom: 8px;
         }
-        .crm-form input, .crm-form select {
+        .crm-field p {
             font-size: 16px;
             padding: 10px;
-            margin-bottom: 20px;
+            margin: 0;
+            background-color: #f9f9f9;
             border: 1px solid #ccc;
             border-radius: 4px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .crm-form button {
-            background-color: #007bff;
-            color: #fff;
-            font-size: 16px;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .crm-form button:hover {
-            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="crm-container">
-        <h2>Add Contact Details</h2>
-        <form class="crm-form">
-            <label for="first-name">First Name</label>
-            <input type="text" id="first-name" name="first-name" required>
-
-            <label for="last-name">Last Name</label>
-            <input type="text" id="last-name" name="last-name" required>
-
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" required>
-
-            <label for="county">County</label>
-            <select id="county" name="county" required>
-                <option value="" disabled selected>Select your county</option>
-                <option value="bedfordshire">Bedfordshire</option>
-                <option value="berkshire">Berkshire</option>
-                <option value="buckinghamshire">Buckinghamshire</option>
-                <option value="cambridgeshire">Cambridgeshire</option>
-                <option value="cheshire">Cheshire</option>
-                <option value="cornwall">Cornwall</option>
-                <option value="cumbria">Cumbria</option>
-                <option value="derbyshire">Derbyshire</option>
-                <option value="devon">Devon</option>
-                <option value="dorset">Dorset</option>
-                <option value="durham">Durham</option>
-                <option value="east-sussex">East Sussex</option>
-                <option value="essex">Essex</option>
-                <option value="gloucestershire">Gloucestershire</option>
-                <option value="greater-london">Greater London</option>
-                <option value="greater-manchester">Greater Manchester</option>
-                <option value="hampshire">Hampshire</option>
-                <option value="herefordshire">Herefordshire</option>
-                <option value="hertfordshire">Hertfordshire</option>
-                <option value="isle-of-wight">Isle of Wight</option>
-                <option value="kent">Kent</option>
-                <option value="lancashire">Lancashire</option>
-                <option value="leicestershire">Leicestershire</option>
-                <option value="lincolnshire">Lincolnshire</option>
-                <option value="merseyside">Merseyside</option>
-                <option value="norfolk">Norfolk</option>
-                <option value="north-yorkshire">North Yorkshire</option>
-                <option value="northamptonshire">Northamptonshire</option>
-                <option value="northumberland">Northumberland</option>
-                <option value="nottinghamshire">Nottinghamshire</option>
-                <option value="oxfordshire">Oxfordshire</option>
-                <option value="rutland">Rutland</option>
-                <option value="shropshire">Shropshire</option>
-                <option value="somerset">Somerset</option>
-                <option value="south-yorkshire">South Yorkshire</option>
-                <option value="staffordshire">Staffordshire</option>
-                <option value="suffolk">Suffolk</option>
-                <option value="surrey">Surrey</option>
-                <option value="tyne-and-wear">Tyne and Wear</option>
-                <option value="warwickshire">Warwickshire</option>
-                <option value="west-midlands">West Midlands</option>
-                <option value="west-sussex">West Sussex</option>
-                <option value="west-yorkshire">West Yorkshire</option>
-                <option value="wiltshire">Wiltshire</option>
-                <option value="worcestershire">Worcestershire</option>
-            </select>
-
-            <button type="submit">Add Contact</button>
-        </form>
+        <div class="crm-header">
+            <h2>Customer Contact Details</h2>
+        </div>
+        <div class="crm-content">
+            <div class="crm-field">
+                <label for="account-number">Account Number</label>
+                <p id="account-number">12345678</p>
+            </div>
+            <div class="crm-field">
+                <label for="account-manager">Account Manager</label>
+                <p id="account-manager">Jane Doe</p>
+            </div>
+            <div class="crm-field">
+                <label for="billing-contact">Billing Contact</label>
+                <p id="billing-contact">John Smith</p>
+            </div>
+            <div class="crm-field">
+                <label for="outstanding-balance">Outstanding Balance</label>
+                <p id="outstanding-balance">£1,234.56</p>
+            </div>
+            <div class="crm-field" style="grid-column: span 2;">
+                <label for="customer-name">Customer Name</label>
+                <p id="customer-name">Acme Corporation</p>
+            </div>
+            <div class="crm-field" style="grid-column: span 2;">
+                <label for="customer-address">Address</label>
+                <p id="customer-address">
+                    123 Main Street,<br>
+                    Anytown,<br>
+                    Anycounty,<br>
+                    AN1 1AA
+                </p>
+            </div>
+            <div class="crm-field">
+                <label for="phone-number">Phone Number</label>
+                <p id="phone-number">01234 567890</p>
+            </div>
+            <div class="crm-field">
+                <label for="email">Email</label>
+                <p id="email">contact@acme.com</p>
+            </div>
+            <div class="crm-field">
+                <label for="preferred-language">Preferred Language</label>
+                <p id="preferred-language">English</p>
+            </div>
+            <div class="crm-field">
+                <label for="industry">Industry</label>
+                <p id="industry">Manufacturing</p>
+            </div>
+            <div class="crm-field">
+                <label for="company-size">Company Size</label>
+                <p id="company-size">250-500 employees</p>
+            </div>
+            <div class="crm-field">
+                <label for="last-contacted">Last Contacted</label>
+                <p id="last-contacted">2024-05-30</p>
+            </div>
+            <div class="crm-field">
+                <label for="status">Status</label>
+                <p id="status">Active</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>
