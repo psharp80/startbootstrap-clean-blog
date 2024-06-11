@@ -123,8 +123,8 @@
         $("<div>", {
             id: divId,
             css: {
-                position: "absolute",
-                right: "10px",
+                position: "fixed",
+                right: "40px",
                 bottom: "10px",
                 display: "flex",
                 flexDirection: "column",
