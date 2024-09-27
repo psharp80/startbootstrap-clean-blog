@@ -139,11 +139,11 @@
  <script>
   F9.Chat.Wrapper.init({
     cdn: 'prod-uk',
-    useBusinessHours: true,
-    languages: {"enabled":false,"backgroundColor":"#001aff"},
-    l10n: {"en":{"messenger":{"customText":{}},"systemMessages":{"transferredToParticipant":"The chat has been transferred to {name}.","transferredToGroup":"That chat has been transferred to group {group}."},"captureFields":[{"k":"campaign","l":"Campaigns","p":"Choose a campaign...","o":[{"v":"Babble engineering - Webchat","l":"Webchat"},{"v":"Babble engineering - Voice IB","l":"Voice"}]},{"k":"name","l":"Name","p":"Enter your name..."},{"k":"email","l":"Email Address","p":"Enter your email..."},{"k":"Question","l":"Question","p":"What can we help you with today?"}]}},
-    prepopulatedFields: [],
-    messenger: {"integrationId":"6442bd46655082e7acca02e0","soundNotificationEnabled":true,"transcriptPrintingEnabled":false,"menuItems":{"imageUpload":true,"fileUpload":true,"shareLocation":true},"embedded":false,"setViewportScale":false,"businessName":"Anglian","browserStorage":"localStorage","hideWidgetAfterBusinessHours":false,"scheduleCallback":{"isCallbackEnabled":false,"requestCallbackList":"","customConfirmationMessage":"We will call you as soon as we can at [PHONE]","web2CampaignAPIHost":""},"fixedHeader":false,"displayStyle":"button","customColors":{"brandColor":"001aff","conversationColor":"001cff","actionColor":"0011ff"},"carouselType":"default"},
+    useBusinessHours: false,
+    languages: {"enabled":false,"backgroundColor":"##3003fc"},
+    l10n: {"en":{"messenger":{"customText":{}},"systemMessages":{"conversationCreated":"Hi, please wait a second","participantAccepted":"you're talking to {name}","participantJoined":"joined","participantLeft":"left","transferredToParticipant":"The chat has been transferred to {name}.","transferredToGroup":"That chat has been transferred to group {group}.","conversationTerminated":"Bye"},"captureFields":[{"k":"name","l":"Name","p":"Enter your name..."},{"k":"email","l":"Email Address","p":"Enter your email..."},{"k":"Question","l":"Question","p":"What can we help you with today?"}]}},
+    prepopulatedFields: [{"k":"campaign","v":"Babble engineering - Webchat"}],
+    messenger: {"integrationId":"6442bd46655082e7acca02e0","soundNotificationEnabled":true,"transcriptPrintingEnabled":false,"menuItems":{"imageUpload":true,"fileUpload":true,"shareLocation":true},"embedded":false,"setViewportScale":false,"businessName":"Anglian","browserStorage":"sessionStorage","hideWidgetAfterBusinessHours":false,"scheduleCallback":{"isCallbackEnabled":false,"requestCallbackList":"","customConfirmationMessage":"We will call you as soon as we can at [PHONE]","web2CampaignAPIHost":""},"fixedHeader":false,"displayStyle":"tab","customColors":{"brandColor":"#3003fc","conversationColor":"0099ff","actionColor":"0099ff"},"carouselType":"default"},
     clearMessagesTimeout: 3
   });
   </script>
